@@ -1,122 +1,134 @@
-﻿using EZInput;
-using System;
-
-namespace Game
+﻿using System;
+namespace Login
 {
     internal class Program
     {
         static void Main()
         {
-            int playerX = 2;
-            int playerY = 3;
-            char[,] maze = {
-                { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
-                { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#' },
-                { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#' },   
-                { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#' },
-                { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#' },
-                { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#' },
-                { '#', ' ', ' ', ' ', 'p', ' ', ' ', ' ', ' ', '#' },
-                { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#' },
-                { '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#' },
-                { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' }
-            };
+            Console.WriteLine("                                     \"Login Menu\"                             ");
+            Console.WriteLine("                                       1.Sign In");
+            Console.WriteLine("                                       2.Sign Up");
+            Console.WriteLine("                                       3.Exit");
 
 
-            PrintMaze(maze);
-            Console.SetCursorPosition(playerY, playerX);
-            Console.Write('P');
+
+
+            int count = 0;
+            int userArrSize = 100;
+            string[] users = new string[userArrSize];
+            string[] passwords = new string[userArrSize];
+            string[] roles = new string[userArrSize];
+
+            string option;
+
+
 
             while (true)
             {
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo key = Console.ReadKey(true);
+                Console.Write("Enter your option: ");
+                option = Console.ReadLine();
 
-                    if (Keyboard.IsKeyPressed(Key.DownArrow))
+                string username, password, role;
+
+                if (option == "1")
+                {
+                    Console.Write("Enter your Name: ");
+                    username = Console.ReadLine();
+                    Console.Write("Enter your Password: ");
+                    password = Console.ReadLine();
+                    string result = Signin(username, password, users, passwords, roles, count);
+                    Console.WriteLine("User Role: " + result);
+                }
+                else if (option == "2")
+                {
+                    Console.Write("Enter your Name: ");
+                    username = Console.ReadLine();
+                    Console.Write("Enter your Password: ");
+                    password = Console.ReadLine();
+                    Console.Write("Enter your Role: ");
+                    role = Console.ReadLine();
+
+                    while (role != "Admin" && role != "User")
                     {
-                        MovePlayerDown(maze, ref playerX, ref playerY);
+                        Console.WriteLine("Invalid role! Please enter 'Admin' or 'User': ");
+                        role = Console.ReadLine();
                     }
-                    else if (Keyboard.IsKeyPressed(Key.UpArrow))
+
+                    if (Signup(username, password, role, users, passwords, roles, ref count, userArrSize))
                     {
-                        MovePlayerUp(maze, ref playerX, ref playerY);
+                        Console.WriteLine($"Congratulations! Sign-Up Successful as {role}.");
                     }
-                    else if (Keyboard.IsKeyPressed(Key.LeftArrow))
+                    else
                     {
-                        MovePlayerLeft(maze, ref playerX, ref playerY);
-                    }
-                    else if (Keyboard.IsKeyPressed(Key.RightArrow))
-                    {
-                        MovePlayerRight(maze, ref playerX, ref playerY);
-                    }
-                    else if (key.Key == ConsoleKey.Escape)
-                    {
-                        break; // Exit the loop if the Escape key is pressed
+                        Console.WriteLine("Invalid! Unable to Sign-Up.");
+
+
                     }
                 }
-            }
-        }
-
-        static void MovePlayerRight(char[,] maze, ref int playerX, ref int playerY)
-        {
-            if (maze[playerX, playerY + 1] == ' ')
-            {
-                maze[playerX, playerY] = ' ';
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write(" ");
-                playerY = playerY + 1;
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write('P');
-            }
-        }
-
-        static void MovePlayerDown(char[,] maze, ref int playerX, ref int playerY)
-        {
-            if (maze[playerX + 1, playerY] == ' ')
-            {
-                maze[playerX, playerY] = ' ';
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write(" ");
-                playerX = playerX + 1;
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write('P');
-            }
-        }
-        static void MovePlayerUp(char[,] maze, ref int playerX, ref int playerY)
-        {
-            if (maze[playerX - 1, playerY] == ' ')
-            {
-                maze[playerX, playerY] = ' ';
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write(" ");
-                playerX = playerX - 1;
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write('P');
-            }
-        }
-        static void MovePlayerLeft(char[,] maze, ref int playerX, ref int playerY)
-        {
-            if (maze[playerX, playerY - 1] == ' ')
-            {
-                maze[playerX, playerY] = ' ';
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write(" ");
-                playerY = playerY - 1;
-                Console.SetCursorPosition(playerY, playerX);
-                Console.Write('P');
-            }
-        }
-
-        static void PrintMaze(char[,] maze)
-        {
-            for (int i = 0; i < maze.GetLength(0); i++)
-            {
-                for (int j = 0; j < maze.GetLength(1); j++)
+                else if (option == "3")
                 {
-                    Console.Write(maze[i, j]);
+                    Console.WriteLine("Exiting...");
+                    break;
                 }
-                Console.WriteLine();
+                else
+                {
+                    Console.WriteLine("Invalid option. Please try again.");
+                }
+
             }
         }
+
+
+
+        static string Signin(string name, string password, string[] user, string[] passwords, string[] role, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (user[i] == name && passwords[i] == password)
+                {
+                    return role[i];
+                }
+
+            }
+            return "Unidentified!";
+        }
+
+
+
+
+
+        static bool Signup(string username, string password, string role, string[] users, string[] passwords, string[] roles, ref int count, int userArrSize)
+        {
+            // check if username already exists
+            for (int i = 0; i < count; i++)
+            {
+                if (users[i] == username)
+                {
+                    Console.WriteLine("Username already exists! Please enter another username.");
+                    return false;
+                }
+            }
+
+            // check if there is space for a new user because max users are declared
+            if (count < userArrSize)
+            {
+                users[count] = username;
+                passwords[count] = password;
+                roles[count] = role;
+                count++;
+
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("User limit reached. Unable to Sign-Up.");
+                return false;
+            }
+        }
+
+
+
+
+
     }
 }
