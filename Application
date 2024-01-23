@@ -414,6 +414,10 @@ namespace TrainManagementSystem
                 ADMIN();
 
             }
+            else if(opt=="8"){
+                REMOVETRAIN(name,);
+
+            }
         }
         static void ADDTRAIN()
         {
@@ -448,5 +452,55 @@ namespace TrainManagementSystem
                 Console.WriteLine("Maximum number of trains reached. Cannot add more trains.");
             }
         }
+        // Remove Added Train funct
+static void REMOVETRAIN(string[] names, string[] destinations, int[] departureTimes,ref int numTrains)
+{
+    /// give acess to remove added trains
+
+    if (numTrains > 0)
+    {
+        viewTrains(names, destinations, departureTimes, numTrains); // Display the list of trains for reference
+
+        string trainName, destination;
+     Console.WriteLine("\nEnter the name of the train to remove: ");
+      trainName=Console.ReadLine();
+     Console.WriteLine("\nEnter the destination of the train to remove: ");
+    destination=Console.ReadLine();
+
+        bool found = false;
+        for (int i = 0; i < numTrains; ++i)
+        {
+            if (names[i] == trainName || destinations[i] == destination)
+            {
+                // Shift elements to remove the train
+                for (int j = i; j < numTrains - 1; j++)
+                {
+                    names[j] = names[j + 1];
+                    destinations[j] = destinations[j + 1];
+                    departureTimes[j] = departureTimes[j + 1];
+                }
+
+                // Decrement the number of trains
+                numTrains--;
+
+             Console.WriteLine("Train '" << trainName << "' removed successfully!\n");
+               bool found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+         Console.WriteLine("Train '" << trainName << "' not found. No changes made.\n");
+        }
+    }
+    else
+    {
+     Console.WriteLine("No trains to remove.\n");
+    }
+
+    clearScreen();
+}
+
     }
 }
