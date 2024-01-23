@@ -347,7 +347,7 @@ namespace TrainManagementSystem
                             validLocation = true;
                         }
                     }
-
+/// initial start from 1
                     nums[i] = 1;
 
                     if (locations[i] == "Lahore")
