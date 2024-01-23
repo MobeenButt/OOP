@@ -1,0 +1,452 @@
+using System;
+
+namespace TrainManagementSystem
+{
+    internal class Program
+    {
+        static int numTrains = 0;
+        static int MAX_TRAINS = 100;
+        static string[] names = new string[MAX_TRAINS];
+        static string[] destinations = new string[MAX_TRAINS];
+        static int[] departureTimes = new int[MAX_TRAINS];
+        const int userArrSize = 100;
+        static string[] users = new string[userArrSize];
+        static string[] passwords = new string[userArrSize];
+        static string[] roles = new string[userArrSize];
+        static int userCount = 0;
+
+        static void Main()
+        {
+            Login();
+            string option;
+
+            while (true)
+            {
+                Console.Write("Enter your option: ");
+                option = Console.ReadLine();
+
+                string username, password, role;
+
+                if (option == "1")
+                {
+                    Console.Write("Enter your Name: ");
+                    username = Console.ReadLine();
+                    Console.Write("Enter your Password: ");
+                    password = Console.ReadLine();
+                    string result = Signin(username, password);
+                    Console.WriteLine("User Role: " + result);
+
+                    if (result == "Admin")
+                    {
+                        ADMIN();
+                    }
+                    else if (result == "User")
+                    {
+                        USER();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Press any key to Continue...");
+                        Console.ReadKey();
+                        CLEAR();
+                        Login();
+                    }
+                }
+                else if (option == "2")
+                {
+                    Console.Write("Enter your Name: ");
+                    username = Console.ReadLine();
+                    Console.Write("Enter your Password: ");
+                    password = Console.ReadLine();
+                    Console.Write("Enter your Role: ");
+                    role = Console.ReadLine();
+
+                    while (role != "Admin" && role != "User")
+                    {
+                        Console.WriteLine("Invalid role! Please enter 'Admin' or 'User': ");
+                        role = Console.ReadLine();
+                    }
+
+                    if (Signup(username, password, role))
+                    {
+                        Console.WriteLine($"Congratulations! Sign-Up Successful as {role}.");
+                        Console.ReadKey();
+                        CLEAR();
+                        Login();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid! Unable to Sign-Up.");
+                    }
+                }
+                else if (option == "3")
+                {
+                    Console.WriteLine("Exiting...");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid option. Please try again.");
+                    Console.ReadKey();
+                    CLEAR();
+                    Login();
+                }
+            }
+        }
+
+        static void Login()
+        {
+            Console.WriteLine("                                     \"Login Menu\"                             ");
+            Console.WriteLine("                                       1.Sign In");
+            Console.WriteLine("                                       2.Sign Up");
+            Console.WriteLine("                                       3.Exit");
+        }
+
+        static string Signin(string name, string password)
+        {
+            for (int i = 0; i < userCount; i++)
+            {
+                if (users[i] == name && passwords[i] == password)
+                {
+                    return roles[i];
+                }
+            }
+            return "Unidentified!";
+        }
+
+        static bool Signup(string username, string password, string role)
+        {
+            for (int i = 0; i < userCount; i++)
+            {
+                if (users[i] == username)
+                {
+                    Console.WriteLine("(Username already exists! Please enter another username.");
+                    return false;
+                }
+            }
+
+            if (userCount < userArrSize)
+            {
+                users[userCount] = username;
+                passwords[userCount] = password;
+                roles[userCount] = role;
+                userCount++;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("(User limit reached. Unable to Sign-Up.");
+                return false;
+            }
+        }
+
+        static void CLEAR()
+        {
+            Console.Clear();
+        }
+
+      
+
+        static void USER()
+        {
+            CLEAR();
+            Console.WriteLine(" 1. Home");
+            Console.WriteLine(" 2. Train Timings");
+            Console.WriteLine(" 3. Rates");
+            Console.WriteLine(" 4. Info");
+            Console.WriteLine(" 5. EBooking");
+            Console.WriteLine(" 6. Feedback");
+            Console.WriteLine(" 7. Ratings");
+            Console.WriteLine(" 8. Ticket Information");
+            Console.WriteLine(" 9. Helpline");
+            Console.WriteLine(" 10. Logout");
+            string opt;
+            Console.WriteLine("Choose Your Option...");
+            opt = Console.ReadLine();
+            if (opt == "1")
+            {
+                Home();
+                USER();
+            }
+            else if (opt == "2")
+            {
+                TIMINGS();
+                USER();
+            }
+            else if (opt == "3")
+            {
+                RATE();
+                USER();
+            }
+            else if (opt == "5")
+            {
+                ETICKET();
+                USER();
+            }
+        }
+
+        static void Home()
+        {
+            Console.WriteLine("Our Services:");
+            Console.WriteLine("JAFFAR EXPRESS");
+            Console.WriteLine("YAAD-GAR-EXPRESS");
+            Console.WriteLine("GREEN TRAIN");
+            Console.WriteLine("PAK-TRAIN ");
+            Console.WriteLine("Press any key Continue");
+            Console.ReadLine();
+        }
+
+        static void TIMINGS()
+        {
+            int op;
+            Console.WriteLine(" 1. Enter Train:");
+            Console.WriteLine(" 2. Location");
+            Console.WriteLine(" 3. Back");
+            op = int.Parse(Console.ReadLine()); ///convert to integer
+
+            if (op < 1 || op > 3)
+            {
+                Console.WriteLine("Invalid option. Please enter a valid option.");
+                CLEAR();
+            }
+
+            if (op == 1)
+            {
+                Console.WriteLine(" Name: ");
+                string name;
+                name = Console.ReadLine();
+                if (name == "JAFFAR EXPRESS")
+                {
+                    Console.WriteLine(" Train Arrive At 10AM");
+                }
+                else if (name == "YAAD-GAR-EXPRESS")
+                {
+                    Console.WriteLine("Train is on time. ");
+                }
+                else if (name == "PAK-TRAIN")
+                {
+                    Console.WriteLine("Train is late due to Rain!");
+                }
+                else if (name == "GREEN TRAIN")
+                {
+                    Console.WriteLine(" Train arrives at 2AM");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Name");
+                }
+            }
+            else if (op == 2)
+            {
+                string location;
+                Console.WriteLine("Enter Location: ");
+                location = Console.ReadLine();
+
+                if (location == "Lahore")
+                {
+                    Console.WriteLine(" JAFFAR EXPRESS is coming soon! ");
+                    TIMINGS();
+                }
+                else if (location == "Karachi")
+                {
+                    Console.WriteLine(" YAAD-GAR-EXPRESS is on its Way!");
+                    TIMINGS();
+                }
+                else if (location == "Peshawar")
+                {
+                    Console.WriteLine(" GREEN TRAIN arrives soon! ");
+                    TIMINGS();
+                }
+                else if (location == "Multan")
+                {
+                    Console.WriteLine(" Train is OUT OF ORDER! ");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Location");
+                }
+            }
+
+            CLEAR();
+        }
+
+        static void RATE()
+        {
+           
+            Console.WriteLine(new string('-', 70));
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "City", "Train", "Ticket Rate");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Lahore-to-Karachi", "JAFFAR EXPRESS", "Rs 4500");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Lahore-to-Multan", "PAK-TRAIN", "Rs 4500");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Karachi-to-Multan", "YAAD-GAR-EXPRESS", "Rs 4200");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Karachi-to-Lahore", "JAFFAR EXPRESS", "Rs 4200");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Multan-to-Lahore", "GREEN TRAIN", "Rs 4000");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Peshawar-to-Karachi", "JAFFAR EXPRESS", "Rs 4500");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Peshawar-to-Lahore", "YAAD-GAR-EXPRESS", "Rs 4500");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Gujranwala-to-Lahore", "PAK-TRAIN", "Rs 4500");
+
+            CLEAR();
+        }
+
+        static void ETICKET()
+        {
+            CLEAR();
+            const int MAX_PASSENGERS = 10;
+            int numTickets;
+
+            
+            while (true)
+            {
+                string input;
+                input = Console.ReadLine();
+
+                while (true)
+                {
+                    Console.Write("Enter the number of tickets: ");
+                    input = Console.ReadLine();
+
+                    if (int.TryParse(input, out numTickets))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid integer.");
+                    }
+                }
+
+                Console.WriteLine("Number of tickets: " + numTickets);
+
+                string[] passengerNames = new string[MAX_PASSENGERS];
+                string[] cnics = new string[MAX_PASSENGERS];
+                string[] locations = new string[MAX_PASSENGERS];
+                int[] nums = new int[MAX_PASSENGERS];
+                int[] totalAmounts = new int[MAX_PASSENGERS];
+
+                Console.WriteLine("PASSENGERS DETAILS");
+
+                for (int i = 0; i < numTickets; i++)
+                {
+                    Console.WriteLine("Enter Name for Passenger {0}: ", i + 1);
+                    passengerNames[i] = Console.ReadLine();
+
+                    Console.WriteLine("Enter CNIC for Passenger {0}: ", i + 1);
+                    cnics[i] = Console.ReadLine();
+
+                    bool validLocation = false;
+                    while (!validLocation)
+                    {
+                        Console.WriteLine("Enter Location for Passenger {0}: ", i + 1);
+                        locations[i] = Console.ReadLine();
+
+                        if (locations[i] != "Lahore" && locations[i] != "Gujranwala" && locations[i] != "Peshawar" && locations[i] != "Karachi" && locations[i] != "Multan")
+                        {
+                            Console.WriteLine("Invalid Location. Please enter a valid location (Lahore, Gujranwala, Peshawar, Karachi, Multan");
+                        }
+                        else
+                        {
+                            validLocation = true;
+                        }
+                    }
+
+                    nums[i] = 1;
+
+                    if (locations[i] == "Lahore")
+                    {
+                        totalAmounts[i] = nums[i] * 4500;
+                    }
+                    else if (locations[i] == "Karachi")
+                    {
+                        totalAmounts[i] = nums[i] * 4200;
+                    }
+                    else if (locations[i] == "Peshawar")
+                    {
+                        totalAmounts[i] = nums[i] * 4500;
+                    }
+                    else if (locations[i] == "Multan")
+                    {
+                        totalAmounts[i] = nums[i] * 4000;
+                    }
+                    else if (locations[i] == "Gujranwala")
+                    {
+                        totalAmounts[i] = nums[i] * 4500;
+                    }
+                }
+
+                DisplayInfo(passengerNames, cnics, locations, nums, totalAmounts, numTickets);
+                CLEAR();
+            }
+        }
+
+        static void DisplayInfo(string[] names, string[] cnics, string[] locations, int[] nums, int[] totalAmounts, int numTickets)
+        {
+            CLEAR();
+            Console.WriteLine("Ticket Details");
+
+            for (int i = 0; i < numTickets; i++)
+            {
+                Console.WriteLine("Passenger " + (i + 1) + " Name: " + names[i]);
+                Console.WriteLine("Passenger " + (i + 1) + " CNIC: " + cnics[i]);
+                Console.WriteLine("Passenger " + (i + 1) + " Location: " + locations[i]);
+                Console.WriteLine("Passenger " + (i + 1) + " Number of Tickets: " + nums[i]);
+                Console.WriteLine("Passenger " + (i + 1) + " Total Amount: " + totalAmounts[i]);
+                Console.WriteLine("-----------------------------------------");
+            }
+        }
+        static void ADMIN()
+        {
+            CLEAR();
+            Console.WriteLine("  1. Add New Train");
+            Console.WriteLine("  2. View added Trains ");
+            Console.WriteLine("  3. Available Trains");
+            Console.WriteLine("  4. Info");
+            Console.WriteLine("  5. Ticket Information");
+            Console.WriteLine("  6. Helpline");
+            Console.WriteLine("  7. E-Ticket");
+            Console.WriteLine("  8. Remove Added Trains");
+            Console.WriteLine("  9. Logout");
+            Console.WriteLine("  10. Exit");
+            string opt;
+            Console.WriteLine("Choose Your Option...");
+            opt = Console.ReadLine();
+            if (opt == "1")
+            {
+                ADDTRAIN();
+                ADMIN();
+
+            }
+        }
+        static void ADDTRAIN()
+        {
+            if (numTrains < MAX_TRAINS)
+            {
+                Console.WriteLine("Enter Train Details: ");
+                Console.WriteLine("Train Name: ");
+                names[numTrains] = Console.ReadLine();
+
+                Console.WriteLine("Destination: ");
+                destinations[numTrains] = Console.ReadLine();
+
+                Console.WriteLine("Departure Time (in 24-hour format, e.g., 1400): ");
+
+                while (!int.TryParse(Console.ReadLine(), out departureTimes[numTrains]) ||
+                       departureTimes[numTrains] < 0 || departureTimes[numTrains] > 2359)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid departure time in 24-hour format (e.g., 1400): ");
+
+                    while (Console.ReadKey().Key != ConsoleKey.Enter)
+                    {
+                    }
+
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine("Train added successfully!");
+                numTrains++;
+            }
+            else
+            {
+                Console.WriteLine("Maximum number of trains reached. Cannot add more trains.");
+            }
+        }
+    }
+}
