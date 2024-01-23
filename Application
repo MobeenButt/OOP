@@ -496,8 +496,12 @@ static void REMOVETRAIN(string[] names, string[] destinations, int[] departureTi
     }
     else
     {
-     Console.WriteLine("No trains to remove.\n");
-    }
+     
+
+Console.WriteLine("No trains to remove.\n");
+Console.ReadLine();
+
+}
 
  CLEAR();
 }
