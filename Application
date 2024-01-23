@@ -1,9 +1,10 @@
 using System;
-
+using System.Threading;
 namespace TrainManagementSystem
 {
     internal class Program
     {
+        /// declaring arrays
         static int numTrains = 0;
         static int MAX_TRAINS = 100;
         static string[] names = new string[MAX_TRAINS];
@@ -14,12 +15,13 @@ namespace TrainManagementSystem
         static string[] passwords = new string[userArrSize];
         static string[] roles = new string[userArrSize];
         static int userCount = 0;
-
+/// main
         static void Main()
         {
+        /// login menu opening
             Login();
             string option;
-
+/// input from user
             while (true)
             {
                 Console.Write("Enter your option: ");
@@ -82,18 +84,20 @@ namespace TrainManagementSystem
                 else if (option == "3")
                 {
                     Console.WriteLine("Exiting...");
+                    Thread.Sleep(800);
                     break;
                 }
                 else
                 {
                     Console.WriteLine("Invalid option. Please try again.");
+                    Console.WriteLine("\n\n Press any key to Continue....");
                     Console.ReadKey();
                     CLEAR();
                     Login();
                 }
             }
         }
-/// login interface 
+/// login menu
         static void Login()
         {
             Console.WriteLine("                                     \"Login Menu\"                             ");
@@ -101,7 +105,7 @@ namespace TrainManagementSystem
             Console.WriteLine("                                       2.Sign Up");
             Console.WriteLine("                                       3.Exit");
         }
-
+//// sign_in menu
         static string Signin(string name, string password)
         {
             for (int i = 0; i < userCount; i++)
@@ -113,7 +117,7 @@ namespace TrainManagementSystem
             }
             return "Unidentified!";
         }
-
+/// sign_up menu
         static bool Signup(string username, string password, string role)
         {
             for (int i = 0; i < userCount; i++)
@@ -139,13 +143,13 @@ namespace TrainManagementSystem
                 return false;
             }
         }
-
+//// Clear the screen
         static void CLEAR()
         {
             Console.Clear();
         }
 
-      
+////User Menu
 
         static void USER()
         {
@@ -178,13 +182,18 @@ namespace TrainManagementSystem
                 RATE();
                 USER();
             }
+            else if (opt == "4")
+            {
+                INFO();
+                USER();
+            }
             else if (opt == "5")
             {
                 ETICKET();
                 USER();
             }
         }
-
+////Home
         static void Home()
         {
             Console.WriteLine("Our Services:");
@@ -195,7 +204,7 @@ namespace TrainManagementSystem
             Console.WriteLine("Press any key Continue");
             Console.ReadLine();
         }
-
+///Timinigs of Trains
         static void TIMINGS()
         {
             int op;
@@ -269,10 +278,10 @@ namespace TrainManagementSystem
 
             CLEAR();
         }
-
+////Rates of Trains 
         static void RATE()
         {
-           
+
             Console.WriteLine(new string('-', 70));
             Console.WriteLine("{0,-30}{1,-30}{2,-10}", "City", "Train", "Ticket Rate");
             Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Lahore-to-Karachi", "JAFFAR EXPRESS", "Rs 4500");
@@ -286,100 +295,84 @@ namespace TrainManagementSystem
 
             CLEAR();
         }
-
+///Online booking of train
         static void ETICKET()
         {
             CLEAR();
             const int MAX_PASSENGERS = 10;
             int numTickets;
 
-            
-            while (true)
+            Console.Write("Enter the number of tickets: ");
+            while (!int.TryParse(Console.ReadLine(), out numTickets) || numTickets <= 0 || numTickets > MAX_PASSENGERS)
             {
-                string input;
-                input = Console.ReadLine();
+                Console.WriteLine("Invalid input. Please enter a valid number of tickets (1 to 10).");
+            }
 
-                while (true)
+            string[] passengerNames = new string[MAX_PASSENGERS];
+            string[] cnics = new string[MAX_PASSENGERS];
+            string[] locations = new string[MAX_PASSENGERS];
+            int[] nums = new int[MAX_PASSENGERS];
+            int[] totalAmounts = new int[MAX_PASSENGERS];
+
+            Console.WriteLine("\t\t\t\tPASSENGERS DETAILS");
+
+            for (int i = 0; i < numTickets; i++)
+            {
+                Console.WriteLine($"Enter Name for Passenger {i + 1}: ");
+                passengerNames[i] = Console.ReadLine();
+
+                Console.WriteLine($"Enter CNIC for Passenger {i + 1}: ");
+                cnics[i] = Console.ReadLine();
+
+                bool validLocation = false;
+                while (!validLocation)
                 {
-                    Console.Write("Enter the number of tickets: ");
-                    input = Console.ReadLine();
+                    Console.WriteLine($"Enter Location for Passenger {i + 1}: ");
+                    locations[i] = Console.ReadLine();
 
-                    if (int.TryParse(input, out numTickets))
+                    if (locations[i] != "Lahore" && locations[i] != "Gujranwala" && locations[i] != "Peshawar" && locations[i] != "Karachi" && locations[i] != "Multan")
                     {
-                        break;
+                        Console.WriteLine("Invalid Location. Please enter a valid location (Lahore, Gujranwala, Peshawar, Karachi, Multan): ");
                     }
                     else
                     {
-                        Console.WriteLine("Invalid input. Please enter a valid integer.");
+                        validLocation = true;
                     }
                 }
 
-                Console.WriteLine("Number of tickets: " + numTickets);
+                nums[i] = 1;
 
-                string[] passengerNames = new string[MAX_PASSENGERS];
-                string[] cnics = new string[MAX_PASSENGERS];
-                string[] locations = new string[MAX_PASSENGERS];
-                int[] nums = new int[MAX_PASSENGERS];
-                int[] totalAmounts = new int[MAX_PASSENGERS];
-
-                Console.WriteLine("PASSENGERS DETAILS");
-
-                for (int i = 0; i < numTickets; i++)
+                if (locations[i] == "Lahore")
                 {
-                    Console.WriteLine("Enter Name for Passenger {0}: ", i + 1);
-                    passengerNames[i] = Console.ReadLine();
-
-                    Console.WriteLine("Enter CNIC for Passenger {0}: ", i + 1);
-                    cnics[i] = Console.ReadLine();
-
-                    bool validLocation = false;
-                    while (!validLocation)
-                    {
-                        Console.WriteLine("Enter Location for Passenger {0}: ", i + 1);
-                        locations[i] = Console.ReadLine();
-
-                        if (locations[i] != "Lahore" && locations[i] != "Gujranwala" && locations[i] != "Peshawar" && locations[i] != "Karachi" && locations[i] != "Multan")
-                        {
-                            Console.WriteLine("Invalid Location. Please enter a valid location (Lahore, Gujranwala, Peshawar, Karachi, Multan");
-                        }
-                        else
-                        {
-                            validLocation = true;
-                        }
-                    }
-/// initial start from 1
-                    nums[i] = 1;
-
-                    if (locations[i] == "Lahore")
-                    {
-                        totalAmounts[i] = nums[i] * 4500;
-                    }
-                    else if (locations[i] == "Karachi")
-                    {
-                        totalAmounts[i] = nums[i] * 4200;
-                    }
-                    else if (locations[i] == "Peshawar")
-                    {
-                        totalAmounts[i] = nums[i] * 4500;
-                    }
-                    else if (locations[i] == "Multan")
-                    {
-                        totalAmounts[i] = nums[i] * 4000;
-                    }
-                    else if (locations[i] == "Gujranwala")
-                    {
-                        totalAmounts[i] = nums[i] * 4500;
-                    }
+                    totalAmounts[i] = nums[i] * 4500;
                 }
-
-                DisplayInfo(passengerNames, cnics, locations, nums, totalAmounts, numTickets);
-                CLEAR();
+                else if (locations[i] == "Karachi")
+                {
+                    totalAmounts[i] = nums[i] * 4200;
+                }
+                else if (locations[i] == "Peshawar")
+                {
+                    totalAmounts[i] = nums[i] * 4500;
+                }
+                else if (locations[i] == "Multan")
+                {
+                    totalAmounts[i] = nums[i] * 4000;
+                }
+                else if (locations[i] == "Gujranwala")
+                {
+                    totalAmounts[i] = nums[i] * 4500;
+                }
             }
+
+            DisplayInfo(passengerNames, cnics, locations, nums, totalAmounts, numTickets);
+            Console.ReadLine(); // Wait for user input before clearing the console
+            CLEAR();
         }
 
+////Displaying information of of e-ticket
         static void DisplayInfo(string[] names, string[] cnics, string[] locations, int[] nums, int[] totalAmounts, int numTickets)
         {
-            CLEAR();
+   
             Console.WriteLine("Ticket Details");
 
             for (int i = 0; i < numTickets; i++)
@@ -392,6 +385,7 @@ namespace TrainManagementSystem
                 Console.WriteLine("-----------------------------------------");
             }
         }
+        /////Admin Menu
         static void ADMIN()
         {
             CLEAR();
@@ -404,7 +398,7 @@ namespace TrainManagementSystem
             Console.WriteLine("  7. E-Ticket");
             Console.WriteLine("  8. Remove Added Trains");
             Console.WriteLine("  9. Logout");
-            Console.WriteLine("  10. Exit");
+            Console.WriteLine(" 10. Exit");
             string opt;
             Console.WriteLine("Choose Your Option...");
             opt = Console.ReadLine();
@@ -414,13 +408,40 @@ namespace TrainManagementSystem
                 ADMIN();
 
             }
-            else if(opt=="8"){
-                REMOVETRAIN(name,);
+            else if (opt == "8")
+            {
+                REMOVETRAIN(names, destinations, departureTimes, ref numTrains);
+                ADMIN();
 
             }
+            else if (opt == "2")
+            {
+                VIEWTRAINS(names,destinations,departureTimes,numTrains);
+                ADMIN();
+            }
+            else if (opt == "4") {
+                INFO();
+                ADMIN();
+            }
+            else if(opt == "9") {
+                Console.Clear();
+                Login();
+            }
+            else if (opt == "7")
+            {
+                ETICKET();
+                ADMIN();
+            }
+            else
+            {
+                Console.WriteLine("Invalid Option!Try Again....");
+            }
         }
+
+        ///Adding new Train
         static void ADDTRAIN()
         {
+            CLEAR();
             if (numTrains < MAX_TRAINS)
             {
                 Console.WriteLine("Enter Train Details: ");
@@ -453,60 +474,92 @@ namespace TrainManagementSystem
             }
         }
         // Remove Added Train funct
-static void REMOVETRAIN(string[] names, string[] destinations, int[] departureTimes,ref int numTrains)
-{
-    /// give acess to remove added trains
-
-    if (numTrains > 0)
-    {
-        viewTrains(names, destinations, departureTimes, numTrains); // Display the list of trains for reference
-
-        string trainName, destination;
-     Console.WriteLine("\nEnter the name of the train to remove: ");
-      trainName=Console.ReadLine();
-     Console.WriteLine("\nEnter the destination of the train to remove: ");
-    destination=Console.ReadLine();
-
-        bool found = false;
-        for (int i = 0; i < numTrains; ++i)
+        static void REMOVETRAIN(string[] names, string[] destinations, int[] departureTimes, ref int numTrains)
         {
-            if (names[i] == trainName || destinations[i] == destination)
+
+            CLEAR();
+            /// give acess to remove added trains
+
+            if (numTrains > 0)
             {
-                // Shift elements to remove the train
-                for (int j = i; j < numTrains - 1; j++)
+                // viewTrains(names, destinations, departureTimes, numTrains); // Display the list of trains for reference
+
+                string trainName, destination;
+                Console.WriteLine("\nEnter the name of the train to remove: ");
+                trainName = Console.ReadLine();
+                Console.WriteLine("\nEnter the destination of the train to remove: ");
+                destination = Console.ReadLine();
+
+                bool found = false;
+                for (int i = 0; i < numTrains; ++i)
                 {
-                    names[j] = names[j + 1];
-                    destinations[j] = destinations[j + 1];
-                    departureTimes[j] = departureTimes[j + 1];
+                    if (names[i] == trainName || destinations[i] == destination)
+                    {
+                        // Shift elements to remove the train
+                        for (int j = i; j < numTrains - 1; j++)
+                        {
+                            names[j] = names[j + 1];
+                            destinations[j] = destinations[j + 1];
+                            departureTimes[j] = departureTimes[j + 1];
+                        }
+
+                        // Decrement the number of trains
+                        numTrains--;
+
+                        Console.WriteLine("Train " + trainName + "  removed successfully!\n");
+                        found = true;
+                        break;
+                    }
                 }
 
-                // Decrement the number of trains
-                numTrains--;
+                if (!found)
+                {
+                    Console.WriteLine("Train " + trainName + " not found. No changes made.\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No trains to remove.\n");
+            }
 
-             Console.WriteLine("Train '" << trainName << "' removed successfully!\n");
-               bool found = true;
-                break;
+            Console.Clear();
+        }
+        // VIEW ADDED TRAIN Funcitons
+        static void VIEWTRAINS(string[] names, string[] destinations, int[] departureTimes, int numTrains)
+        {
+            CLEAR();
+            if (numTrains > 0)
+            {
+                Console.WriteLine("\n===== List of Added Trains =====\n");
+                Console.WriteLine("{0,-15} {1,-15} {2,-20}", "Train Name", "Destination", "Departure Time");
+
+                for (int i = 0; i < numTrains; ++i)
+                {
+                    Console.WriteLine("{0,-15} {1,-15} {2,-20}", names[i], destinations[i], departureTimes[i]);
+                }
+
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("No trains added yet.\n");
+                Thread.Sleep(800);
+                Console.WriteLine("Press any key to Continue...");
+                Console.ReadKey();
             }
         }
 
-        if (!found)
+        ////Information of our Services
+        static void INFO()
         {
-         Console.WriteLine("Train '" << trainName << "' not found. No changes made.\n");
+            Console.Clear();
+            //header();
+            Console.WriteLine( "Pakistan Railways is the national, state-owned railway company of Pakistan in Lahore. Founded in 1861 as the North Western State Railway and headquartered in Lahore, it owns 7,490 kilometres of operational track across Pakistan, stretching from Torkham to Karachi, offering both freight and passenger services." );
+            Console.WriteLine("\t\t\t\n\n\n\n Press any key to Continue");
+            Console.ReadLine();
         }
     }
-    else
-    {
-     
-
-Console.WriteLine("No trains to remove.\n");
-Thread.Sleep(800);
-Console.WriteLine("Press any key to Continue..."); 
-Console.ReadLine();
 
 }
 
- CLEAR();
-}
-
-    }
-}
