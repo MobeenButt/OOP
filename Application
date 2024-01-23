@@ -499,7 +499,7 @@ static void REMOVETRAIN(string[] names, string[] destinations, int[] departureTi
      Console.WriteLine("No trains to remove.\n");
     }
 
-    clearScreen();
+ CLEAR();
 }
 
     }
