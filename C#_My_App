@@ -4,21 +4,19 @@ namespace studentManagement
 {
     internal class Program
     {
-/// make array of student
         static Manage[] student = new Manage[100];
         static int studentCount = 0;
         static void Main(string[] args)
         {
             Display();
-///display all functions
         }
         static void ADDSTUDENT()
-///function to add students
         {
             string name;
             float matricMarks;
             float fscMarks;
             float ecatMarks;
+
             Console.Clear();
             Console.Write("Enter your name: ");
             name = Console.ReadLine();
@@ -34,14 +32,14 @@ namespace studentManagement
                 Console.WriteLine("Press any key to Continue!");
                 Console.ReadKey();
                 Console.WriteLine("Student Added Successfully!");
+                SHOWSTUDENT(student);
             }
             else
             {
-                Console.WriteLine("Cannot add more students. Array is full.");
+                Console.WriteLine("Cannot add more student. Array is full.");
             }
 
         }
-/// all functions display 
         static void Display()
         {
             while (true)
@@ -70,9 +68,26 @@ namespace studentManagement
                     for (int i = 0; i < studentCount; i++)
                     {
                         SHOWSTUDENT(student);
+                        Console.WriteLine("Press any key to Continue...");
+                        Console.ReadKey();
                         Display();
                     }
-                
+
+                }
+                else if (option == "3")
+                {
+                    Console.Clear();
+                    CALCULATEAGG(student);
+                    Console.WriteLine("Press any key to Continue...");
+                    Console.ReadKey();
+
+                }
+                else if (option == "4")
+                {
+                    TOP();
+                    Console.WriteLine("Press any key to Continue...");
+                    Console.ReadKey();
+                    Display();
                 }
 
                 else
@@ -81,22 +96,75 @@ namespace studentManagement
                 }
             }
         }
-
-///display students Data
         static void SHOWSTUDENT(Manage[] student)
         {
             Console.Clear();
+            for (int i = 0; i < studentCount; i++)
+            {
+
+                Console.WriteLine($"Name: {student[i].name}  Matric-Marks: {student[i].matricMarks}  Fsc-Marks: {student[i].fscMarks}  ECAT-Marks: {student[i].ecatMarks}  Aggregate: {student[i].aggregate}");
+
+            }
+        }
+        static void CALCULATEAGG(Manage[] student)
+        {
+
             for (int i = 0; i < student.Length; i++)
             {
-                Console.WriteLine("Name: " + student[i].name + "  " + "Matric-Marks: " + student[i].matricMarks + "  " + "Fsc-Marks: " + student[i].fscMarks + "  " + "ECAT-Marks: " + student[i].ecatMarks);
-              
-                   
+                if (student[i] != null)
+                {
+                    student[i].aggregate = (float)((student[i].matricMarks * 0.9) + (student[i].fscMarks * 0.6) + (student[i].ecatMarks * 0.33));
+                }
             }
-            Console.WriteLine("Press any key to Continue...");
-            Console.ReadKey();
+            for (int i = 0; i < student.Length; i++)
+            {
+                if (student[i] != null)
+                {
+                    Console.WriteLine("{0} \t\t {1}", student[i].name, student[i].aggregate);
+                }
+            }
+        }
+        static void TOP()
+        {
+            Console.Clear();
+            if (studentCount > 0)
+            {
+                float[] arr = new float[studentCount];
+                for (int i = 0; i < studentCount; i++)
+                {
+                    arr[i] = student[i].aggregate;
+                }
+
+                SortArray(arr);
+
+                // Display top students
+                Console.WriteLine("\t\t\tTOP STUDENTS");
+                for (int i = 0; i < 3 && i < studentCount; i++)
+                {
+                    Console.WriteLine("\t\tAggregate: {0}",  arr[i]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No Student Available");
+            }
+        }
+
+
+        static void SortArray(float[] arr)
+        {
+            for (int i = 0; i < arr.Length-1; i++)
+            {
+                for (int j = i + 1; j < arr.Length; j++)
+                {
+                    if (arr[i] > arr[j])
+                    {
+                        float temp = arr[j];
+                        arr[j] = arr[i];
+                        arr[i] = temp;
+                    }
+                }
+            }
         }
     }
 }
-
-
-
