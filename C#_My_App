@@ -1,1 +1,96 @@
+using System;
+
+namespace studentManagement
+{
+    internal class Program
+    {
+        static Manage[] student = new Manage[100];
+        static int studentCount = 0;
+        static void Main(string[] args)
+        {
+            Display();
+        }
+        static void ADDSTUDENT()
+        {
+            string name;
+            float matricMarks;
+            float fscMarks;
+            float ecatMarks;
+            Console.Clear();
+            Console.Write("Enter your name: ");
+            name = Console.ReadLine();
+            Console.Write("Enter your Matric Marks:");
+            matricMarks = float.Parse(Console.ReadLine());
+            Console.Write("Enter your FSC Marks: ");
+            fscMarks = float.Parse(Console.ReadLine());
+            Console.Write("Enter your Ecat Marks: ");
+            ecatMarks = float.Parse(Console.ReadLine());
+            if (studentCount < student.Length)
+            {
+                student[studentCount++] = new Manage(name, matricMarks, fscMarks, ecatMarks);
+                Console.WriteLine("Press any key to Continue!");
+                Console.ReadKey();
+                Console.WriteLine("Student Added Successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Cannot add more students. Array is full.");
+            }
+
+        }
+        static void Display()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("\t\t\t\t\tSTUDENT MANAGEMENT SYSTEM\t\t\t");
+                Console.WriteLine("\t\t\t\t\t  1. Add Student");
+                Console.WriteLine("\t\t\t\t\t  2. Show Students");
+                Console.WriteLine("\t\t\t\t\t  3. Calculate Aggregate");
+                Console.WriteLine("\t\t\t\t\t  4. Top Students");
+                Console.WriteLine("\t\t\t\t\t  5. Exit");
+
+
+                string option;
+                Console.WriteLine("Choose your option :");
+                option = Console.ReadLine();
+
+                if (option == "1")
+                {
+                    Console.Clear();
+                    ADDSTUDENT();
+                }
+                else if (option == "2")
+                {
+
+                    for (int i = 0; i < studentCount; i++)
+                    {
+                        SHOWSTUDENT(student);
+                        Display();
+                    }
+                
+                }
+
+                else
+                {
+                    Console.WriteLine("Invalid Choice!");
+                }
+            }
+        }
+        static void SHOWSTUDENT(Manage[] student)
+        {
+            Console.Clear();
+            for (int i = 0; i < student.Length; i++)
+            {
+                Console.WriteLine("Name: " + student[i].name + "  " + "Matric-Marks: " + student[i].matricMarks + "  " + "Fsc-Marks: " + student[i].fscMarks + "  " + "ECAT-Marks: " + student[i].ecatMarks);
+              
+                   
+            }
+            Console.WriteLine("Press any key to Continue...");
+            Console.ReadKey();
+        }
+    }
+}
+
+
 
