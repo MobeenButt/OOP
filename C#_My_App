@@ -4,11 +4,13 @@ namespace studentManagement
 {
     internal class Program
     {
+/// make array of student
         static Manage[] student = new Manage[100];
         static int studentCount = 0;
         static void Main(string[] args)
         {
             Display();
+///display all functions
         }
         static void ADDSTUDENT()
         {
