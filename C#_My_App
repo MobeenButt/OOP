@@ -41,6 +41,7 @@ namespace studentManagement
             }
 
         }
+/// all functions display 
         static void Display()
         {
             while (true)
@@ -80,6 +81,8 @@ namespace studentManagement
                 }
             }
         }
+
+///display students Data
         static void SHOWSTUDENT(Manage[] student)
         {
             Console.Clear();
