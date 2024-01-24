@@ -13,6 +13,7 @@ namespace studentManagement
 ///display all functions
         }
         static void ADDSTUDENT()
+///function to add students
         {
             string name;
             float matricMarks;
