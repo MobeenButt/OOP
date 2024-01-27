@@ -1,170 +1,92 @@
 using System;
 
-namespace studentManagement
+namespace RailwaySystem
 {
-    internal class Program
+    class RailwaySystem
     {
-        static Manage[] student = new Manage[100];
-        static int studentCount = 0;
         static void Main(string[] args)
         {
-            Display();
-        }
-        static void ADDSTUDENT()
-        {
-            string name;
-            float matricMarks;
-            float fscMarks;
-            float ecatMarks;
+            UserManagement userManagement = new UserManagement();
+            userManagement.LoadUserRecords();
+            userManagement.SaveUserRecords();
+            int option;
 
-            Console.Clear();
-            Console.Write("Enter your name: ");
-            name = Console.ReadLine();
-            Console.Write("Enter your Matric Marks:");
-            matricMarks = float.Parse(Console.ReadLine());
-            Console.Write("Enter your FSC Marks: ");
-            fscMarks = float.Parse(Console.ReadLine());
-            Console.Write("Enter your Ecat Marks: ");
-            ecatMarks = float.Parse(Console.ReadLine());
-            if (studentCount < student.Length)
-            {
-                student[studentCount++] = new Manage(name, matricMarks, fscMarks, ecatMarks);
-                Console.WriteLine("Press any key to Continue!");
-                Console.ReadKey();
-                Console.WriteLine("Student Added Successfully!");
-                SHOWSTUDENT(student);
-            }
-            else
-            {
-                Console.WriteLine("Cannot add more student. Array is full.");
-            }
-
-        }
-        static void Display()
-        {
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("\t\t\t\t\tSTUDENT MANAGEMENT SYSTEM\t\t\t");
-                Console.WriteLine("\t\t\t\t\t  1. Add Student");
-                Console.WriteLine("\t\t\t\t\t  2. Show Students");
-                Console.WriteLine("\t\t\t\t\t  3. Calculate Aggregate");
-                Console.WriteLine("\t\t\t\t\t  4. Top Students");
-                Console.WriteLine("\t\t\t\t\t  5. Exit");
+                Console.WriteLine("\t\t1. SignIn");
+                Console.WriteLine("\t\t2. SignUp");
+                Console.WriteLine("\t\t3. Exit");
+                Console.WriteLine("\t\tEnter your option...");
 
-
-                string option;
-                Console.WriteLine("Choose your option :");
-                option = Console.ReadLine();
-
-                if (option == "1")
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out option))
                 {
-                    Console.Clear();
-                    ADDSTUDENT();
-                }
-                else if (option == "2")
-                {
-
-                    for (int i = 0; i < studentCount; i++)
+                    if (option >= 1 && option <= 3)
                     {
-                        SHOWSTUDENT(student);
-                        Console.WriteLine("Press any key to Continue...");
-                        Console.ReadKey();
-                        Display();
+                        if (option == 1)
+                        {
+                            Console.Write("Enter Name: ");
+                            string name = Console.ReadLine();
+                            Console.Write("Enter your Password: ");
+                            string password = ReadPassword();
+                            string role = userManagement.SignIn(name, password);
+                            Console.WriteLine($"User role: {role}");
+                        }
+                        else if (option == 2)
+                        {
+                            Console.Write("Enter Name: ");
+                            string signUpName = Console.ReadLine();
+                            Console.Write("Enter your Password: ");
+                            string signUpPassword = ReadPassword();
+                            Console.Write("Enter Role: ");
+                            string signUpRole = Console.ReadLine();
+
+                            bool signUpResult = userManagement.SignUp(signUpName, signUpPassword, signUpRole);
+                            if (signUpResult)
+                            {
+                                Console.WriteLine("User registered successfully.");
+                                userManagement.SaveUserRecords();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Username already exists or maximum users reached. Signup failed.");
+                            }
+                        }
+                        else if (option == 3)
+                        {
+                            Console.WriteLine("Exiting the program. Goodbye!");
+                            break;
+                        }
                     }
-
+                    else
+                    {
+                        Console.WriteLine("Invalid option. Please enter a valid number (1-3).");
+                    }
                 }
-                else if (option == "3")
-                {
-                    Console.Clear();
-                    CALCULATEAGG(student);
-                    Console.WriteLine("Press any key to Continue...");
-                    Console.ReadKey();
-
-                }
-                else if (option == "4")
-                {
-                    TOP();
-                    Console.WriteLine("Press any key to Continue...");
-                    Console.ReadKey();
-                    Display();
-                }
-
                 else
                 {
-                    Console.WriteLine("Invalid Choice!");
+                    Console.WriteLine("Invalid input. Please enter a valid number (1-3).");
                 }
             }
         }
-        static void SHOWSTUDENT(Manage[] student)
+
+
+        static string ReadPassword()
         {
-            Console.Clear();
-            for (int i = 0; i < studentCount; i++)
-            {
+            string password = "";
+            ConsoleKeyInfo key = Console.ReadKey(true);
 
-                Console.WriteLine($"Name: {student[i].name}  Matric-Marks: {student[i].matricMarks}  Fsc-Marks: {student[i].fscMarks}  ECAT-Marks: {student[i].ecatMarks}  Aggregate: {student[i].aggregate}");
-
-            }
-        }
-        static void CALCULATEAGG(Manage[] student)
-        {
-
-            for (int i = 0; i < student.Length; i++)
+            while (key.Key != ConsoleKey.Enter)
             {
-                if (student[i] != null)
-                {
-                    student[i].aggregate = (float)((student[i].matricMarks * 0.9) + (student[i].fscMarks * 0.6) + (student[i].ecatMarks * 0.33));
-                }
+                password += key.KeyChar;
+                Console.Write("*");
+                key = Console.ReadKey(true);
             }
-            for (int i = 0; i < student.Length; i++)
-            {
-                if (student[i] != null)
-                {
-                    Console.WriteLine("{0} \t\t {1}", student[i].name, student[i].aggregate);
-                }
-            }
-        }
-        static void TOP()
-        {
-            Console.Clear();
-            if (studentCount > 0)
-            {
-                float[] arr = new float[studentCount];
-                for (int i = 0; i < studentCount; i++)
-                {
-                    arr[i] = student[i].aggregate;
-                }
 
-                SortArray(arr);
-
-                // Display top students
-                Console.WriteLine("\t\t\tTOP STUDENTS");
-                for (int i = 0; i < 3 && i < studentCount; i++)
-                {
-                    Console.WriteLine("\t\tAggregate: {0}",  arr[i]);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No Student Available");
-            }
+            Console.WriteLine();
+            return password;
         }
 
 
-        static void SortArray(float[] arr)
-        {
-            for (int i = 0; i < arr.Length-1; i++)
-            {
-                for (int j = i + 1; j < arr.Length; j++)
-                {
-                    if (arr[i] > arr[j])
-                    {
-                        float temp = arr[j];
-                        arr[j] = arr[i];
-                        arr[i] = temp;
-                    }
-                }
-            }
-        }
     }
 }
