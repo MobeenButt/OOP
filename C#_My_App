@@ -89,4 +89,114 @@ namespace RailwaySystem
 
 
     }
-}
+
+    class UserManagement
+    {
+        const int MaxUsers = 100;
+        string[] users = new string[MaxUsers];
+        string[] passwords = new string[MaxUsers];
+        string[] roles = new string[MaxUsers];
+        int count = 0;
+
+        public void LoadUserRecords()
+        {
+            string path = "railwayrecord.txt";
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("User records file not found. Creating a new file.");
+                SaveUserRecord("defaultUser", "defaultPassword", "defaultRole");
+            }
+
+            Console.WriteLine("Loading user records...");
+            string[] lines = File.ReadAllLines(path);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string record = lines[i];
+                users[count] = GetField(record, 1);
+                passwords[count] = GetField(record, 2);
+                roles[count] = GetField(record, 3);
+                ++count;
+            }
+
+        }
+
+        public void SaveUserRecords()
+        {
+            string path = "railwayrecord.txt";
+            File.WriteAllLines(path, GetRecords());
+        }
+
+        public string SignIn(string name, string password)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (users[i] == name && passwords[i] == password)
+                {
+                    return roles[i];
+                }
+            }
+            return "undefined";
+        }
+
+        public bool SignUp(string name, string password, string role)
+        {
+            for (int i = 0; i < count; ++i)
+            {
+                if (users[i] == name)
+                {
+                    Console.WriteLine("\t\t\t\t\tUsername already exists. ");
+                    Console.WriteLine("Please enter another username.");
+                    return false;
+                }
+            }
+
+            if (count < MaxUsers)
+            {
+                users[count] = name;
+                passwords[count] = password;
+                roles[count] = role;
+                ++count;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string GetField(string record, int field)
+        {
+            int comma = 1;
+            string result = "";
+            for (int x = 0; x < record.Length; x++)
+            {
+                if (record[x] == ',')
+                {
+                    comma = comma + 1;
+                }
+                else if (comma == field)
+                {
+                    result = result + record[x];
+                }
+            }
+            return result;
+        }
+
+       public string[] GetRecords()
+        {
+            string[] records = new string[count];
+            for (int i = 0; i < count; i++)
+            {
+                records[i] = $"{users[i]},{passwords[i]},{roles[i]}";
+            }
+            return records;
+        }
+
+       public void SaveUserRecord(string name, string password, string role)
+        {
+            using (StreamWriter file = new StreamWriter("railwayrecord.txt", true))
+            {
+                file.WriteLine($"{name},{password},{role}");
+            }
+        }
+    }
