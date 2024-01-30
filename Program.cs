@@ -4,18 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Constructor
+namespace ATM
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
-            student s1 =new student();
-            s1.sname = "Jack";
-            student s2 =new student();
-            Console.WriteLine(s1.sname);
-            Console.WriteLine(s2.sname);
-            Console.ReadKey();
+          
+            Atm atm = new Atm();
+
+            atm.DepositMoney(2100);
+            atm.CheckBalance();
+            atm.DepositMoney(100);
+            atm.CheckBalance();
+            atm.Withdraw(1000);
+
+            atm.CheckBalance();
+
+
+
         }
     }
 }
+
