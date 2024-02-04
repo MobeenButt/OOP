@@ -1,29 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ATM
+namespace Product_System
 {
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
-          
-            Atm atm = new Atm();
-
-            atm.DepositMoney(2100);
-            atm.CheckBalance();
-            atm.DepositMoney(100);
-            atm.CheckBalance();
-            atm.Withdraw(1000);
-
-            atm.CheckBalance();
-
-
-
+            Product product = new Product();
+            int op;
+            do
+            {
+                op = product.MENU();
+                if (op == 1)
+                {
+                    Console.Clear();
+                    product.AddProduct();
+                }
+                else if (op == 2)
+                {
+                    Console.Clear();
+                    product.SHOWPRODUCTS();
+                }
+                else if (op == 3)
+                {
+                    Console.Clear();
+                    product.TOTAL();
+                }
+                else if (op == 4)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Invalid Choice...");
+                }
+            } while (op != 4);
         }
     }
 }
-
