@@ -1,0 +1,7 @@
+D:\OOP\oopLAB\Lab\LAB6\LBMS\bin\Debug\LBMS.exe.config
+D:\OOP\oopLAB\Lab\LAB6\LBMS\bin\Debug\LBMS.exe
+D:\OOP\oopLAB\Lab\LAB6\LBMS\bin\Debug\LBMS.pdb
+D:\OOP\oopLAB\Lab\LAB6\LBMS\obj\Debug\LBMS.csproj.AssemblyReference.cache
+D:\OOP\oopLAB\Lab\LAB6\LBMS\obj\Debug\LBMS.csproj.CoreCompileInputs.cache
+D:\OOP\oopLAB\Lab\LAB6\LBMS\obj\Debug\LBMS.exe
+D:\OOP\oopLAB\Lab\LAB6\LBMS\obj\Debug\LBMS.pdb

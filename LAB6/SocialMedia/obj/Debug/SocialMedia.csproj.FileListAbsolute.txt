@@ -1,0 +1,7 @@
+D:\OOP\oopLAB\Lab\LAB6\SocialMedia\obj\Debug\SocialMedia.csproj.AssemblyReference.cache
+D:\OOP\oopLAB\Lab\LAB6\SocialMedia\obj\Debug\SocialMedia.csproj.CoreCompileInputs.cache
+D:\OOP\oopLAB\Lab\LAB6\SocialMedia\bin\Debug\SocialMedia.exe.config
+D:\OOP\oopLAB\Lab\LAB6\SocialMedia\bin\Debug\SocialMedia.exe
+D:\OOP\oopLAB\Lab\LAB6\SocialMedia\bin\Debug\SocialMedia.pdb
+D:\OOP\oopLAB\Lab\LAB6\SocialMedia\obj\Debug\SocialMedia.exe
+D:\OOP\oopLAB\Lab\LAB6\SocialMedia\obj\Debug\SocialMedia.pdb

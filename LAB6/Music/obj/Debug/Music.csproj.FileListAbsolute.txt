@@ -1,0 +1,7 @@
+D:\OOP\oopLAB\Lab\LAB6\Music\obj\Debug\Music.csproj.AssemblyReference.cache
+D:\OOP\oopLAB\Lab\LAB6\Music\obj\Debug\Music.csproj.CoreCompileInputs.cache
+D:\OOP\oopLAB\Lab\LAB6\Music\bin\Debug\Music.exe.config
+D:\OOP\oopLAB\Lab\LAB6\Music\bin\Debug\Music.exe
+D:\OOP\oopLAB\Lab\LAB6\Music\bin\Debug\Music.pdb
+D:\OOP\oopLAB\Lab\LAB6\Music\obj\Debug\Music.exe
+D:\OOP\oopLAB\Lab\LAB6\Music\obj\Debug\Music.pdb
